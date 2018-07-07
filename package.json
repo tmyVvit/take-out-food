@@ -11,7 +11,7 @@
     "url": "git+https://github.com/freewind/take-out-food.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "terry",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/freewind/take-out-food/issues"
@@ -20,5 +20,8 @@
   "devDependencies": {
     "jasmine": "^2.4.1",
     "jasmine-console-reporter": "^1.2.6"
+  },
+  "directories": {
+    "lib": "lib"
   }
 }
