@@ -63,3 +63,16 @@ describe("#1 getItemCountLists function", () => {
 
   });
 });
+
+describe("#2 getItemInfoLists function", () => {
+  it("should get the item, count, name, price", ()=>{
+    let inputs = ["ITEM0001 x 1", "ITEM0013 x 2", "ITEM0022 x 1"];
+
+    const expected_item_count_lists = [{id: "ITEM0001", count: 1},
+    {id: "ITEM0013", count: 2},{id: "ITEM0022", count: 1},];
+
+    let itemCountLists = JSON.stringify(getItemCountLists(inputs));
+    expect(itemCountLists).toBe(JSON.stringify(expected_item_count_lists))
+
+  });
+});

@@ -1,0 +1,52 @@
+#1  getItemCountLists
+    input : tags [string]
+    output: itemCountLists[{id:string, count:number}]
+
+#2  getItemInfoLists
+    input : itemCountLists, loadAllItem()
+    output: itemInfoLists[{
+        id   : string,
+        count: number,
+        name : string,
+        price: number
+    }]
+
+#3  calculateSubtotalBeforePromotion
+    input : itemInfoLists
+    output: itemInfoLists[{
+        id      : string,
+        count   : number,
+        name    : string,
+        price   : number,
+        subtotal: number
+    }] 
+
+#4  calculateSavedByProm1
+    input : itemInfoLists, loadPromotions()
+    output: savedByProm1 : number
+
+#5  calculateSavedByProm2
+    input : itemInfoLists, loadPromotions()
+    output: savedByProm2 : number
+
+#6  calculateSaved
+    input : savedByProm1, savedByProm2
+    output: savedInfo{promotion: string, saved: number}
+
+#7  calculateBestCharge
+    input : itemInfoLists, savedInfo
+    output: bestCharge: number
+
+#8  getOrderDetail
+    input : itemInfoLists, savedInfo, bestCharge
+    output: orderDetail{
+        items:{
+            name: string, count: number, subtotal: number
+        }
+        saved     : number
+        bestCharge: number
+    }
+
+#9  getOrderDetailString
+    input : orderDetail
+    output: orderDetailString
