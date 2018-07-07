@@ -1,6 +1,36 @@
 const {loadAllItems} = require('../src/items')
 const {loadPromotions} = require('../src/promotions')
-const  {getItemCountLists} = require('../src/best-charge')
+const  {getItemCountLists, getItemInfoLists} = require('../src/best-charge')
+
+describe("#1 getItemCountLists function", () => {
+  it("should get the item and count", ()=>{
+    let inputs = ["ITEM0001 x 1", "ITEM0013 x 2", "ITEM0022 x 1"];
+
+    const expected_item_count_lists = [{id: "ITEM0001", count: 1},
+    {id: "ITEM0013", count: 2},{id: "ITEM0022", count: 1},];
+
+    let itemCountLists = JSON.stringify(getItemCountLists(inputs));
+    expect(itemCountLists).toBe(JSON.stringify(expected_item_count_lists))
+
+  });
+});
+
+describe("#2 getItemInfoLists function", () => {
+  it("should get the item, count, name, price", ()=>{
+
+    let itemCountLists = [{id: "ITEM0001", count: 1},
+    {id: "ITEM0013", count: 2},{id: "ITEM0022", count: 1}];
+
+    const expected_item_info_lists = [{id: "ITEM0001", count: 1, name: "黄焖鸡", price: 18.00},
+    {id: "ITEM0013", count: 2, name: "肉夹馍", price: 6.00},
+    {id: "ITEM0022", count: 1, name: "凉皮", price: 8.00}];
+
+    let itemInfoLists = JSON.stringify(getItemInfoLists(itemCountLists));
+    expect(itemInfoLists).toBe(JSON.stringify(expected_item_info_lists))
+
+  });
+});
+
 /*
 describe('Take out food', function () {
 
@@ -51,28 +81,3 @@ describe('Take out food', function () {
 
 });
 */
-describe("#1 getItemCountLists function", () => {
-  it("should get the item and count", ()=>{
-    let inputs = ["ITEM0001 x 1", "ITEM0013 x 2", "ITEM0022 x 1"];
-
-    const expected_item_count_lists = [{id: "ITEM0001", count: 1},
-    {id: "ITEM0013", count: 2},{id: "ITEM0022", count: 1},];
-
-    let itemCountLists = JSON.stringify(getItemCountLists(inputs));
-    expect(itemCountLists).toBe(JSON.stringify(expected_item_count_lists))
-
-  });
-});
-
-describe("#2 getItemInfoLists function", () => {
-  it("should get the item, count, name, price", ()=>{
-    let inputs = ["ITEM0001 x 1", "ITEM0013 x 2", "ITEM0022 x 1"];
-
-    const expected_item_count_lists = [{id: "ITEM0001", count: 1},
-    {id: "ITEM0013", count: 2},{id: "ITEM0022", count: 1},];
-
-    let itemCountLists = JSON.stringify(getItemCountLists(inputs));
-    expect(itemCountLists).toBe(JSON.stringify(expected_item_count_lists))
-
-  });
-});
