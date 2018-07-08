@@ -36,9 +36,9 @@ function calculateSubtotalBeforePromotion(itemInfoLists) {
   });
 }
 
-function calculateChargesBeforePromotion(itemInfoLists) {
-  return itemInfoLists.reduce((charges, itemCountList) => {
-    return charges+itemCountList.subtotal;
+function calculateChargeBeforePromotion(itemInfoLists) {
+  return itemInfoLists.reduce((charge, itemCountList) => {
+    return charge+itemCountList.subtotal;
   }, 0);
 }
 
@@ -63,6 +63,10 @@ function calculateSavedByProm2(itemInfoLists) {
         };
 }
 
+function calculateSaved(inputSavedByProm1, inputSavedByProm2) {
+  return inputSavedByProm1.saved < inputSavedByProm2.saved?inputSavedByProm2:inputSavedByProm1;
+}
+
 function bestCharge(selectedItems) {
   return /*TODO*/;
 
@@ -70,4 +74,5 @@ function bestCharge(selectedItems) {
 
 
 module.exports = {getItemCountLists, getItemInfoLists,calculateSubtotalBeforePromotion,
-  calculateChargesBeforePromotion, calculateSavedByProm1, calculateSavedByProm2};
+  calculateChargeBeforePromotion, calculateSavedByProm1, calculateSavedByProm2,
+  calculateSaved};

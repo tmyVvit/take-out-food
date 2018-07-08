@@ -1,7 +1,7 @@
 const {loadAllItems} = require('../src/items')
 const {loadPromotions} = require('../src/promotions')
-const  {getItemCountLists, getItemInfoLists,calculateSubtotalBeforePromotion, calculateChargesBeforePromotion,
-  calculateSavedByProm1, calculateSavedByProm2} = require('../src/best-charge')
+const  {getItemCountLists, getItemInfoLists,calculateSubtotalBeforePromotion, calculateChargeBeforePromotion,
+  calculateSavedByProm1, calculateSavedByProm2, calculateSaved} = require('../src/best-charge')
 
 describe("#1 getItemCountLists function", () => {
   it("should get the item and count", ()=>{
@@ -49,17 +49,17 @@ describe("#3 calculateSubtotalBeforePromotion function", () => {
   });
 });
 
-describe("#4 calculateChargesBeforePromotion", () => {
+describe("#4 calculateChargeBeforePromotion", () => {
   it("should calculate charges before promition", ()=>{
 
     let input_itemInfoLists = [{id: "ITEM0001", count: 1, name: "黄焖鸡", price: 18.00, subtotal: 18},
     {id: "ITEM0013", count: 2, name: "肉夹馍", price: 6.00, subtotal: 12},
     {id: "ITEM0022", count: 1, name: "凉皮", price: 8.00, subtotal: 8}];
 
-    const expected_charges = 38; 
+    const expected_charge = 38; 
 
-    let charges = JSON.stringify(calculateChargesBeforePromotion(input_itemInfoLists));
-    expect(charges).toBe(JSON.stringify(expected_charges))
+    let charge = JSON.stringify(calculateChargeBeforePromotion(input_itemInfoLists));
+    expect(charge).toBe(JSON.stringify(expected_charge))
 
   });
 });
@@ -67,11 +67,11 @@ describe("#4 calculateChargesBeforePromotion", () => {
 describe("#5 calculateSavedByProm1", () => {
   it("should calculate saved money by promotion_1:满30减6元", ()=>{
 
-    let input_charges = 38;
+    let input_charge = 38;
 
     const expected_saved_by_prom1 = {promotion:'满30减6元', saved:6}; 
 
-    let saved_by_prom1 = JSON.stringify(calculateSavedByProm1(input_charges));
+    let saved_by_prom1 = JSON.stringify(calculateSavedByProm1(input_charge));
     expect(saved_by_prom1).toBe(JSON.stringify(expected_saved_by_prom1))
 
   });
@@ -89,6 +89,48 @@ describe("#6 calculateSavedByProm2", () => {
 
     let saved_by_prom2 = JSON.stringify(calculateSavedByProm2(input_itemInfoLists));
     expect(saved_by_prom2).toBe(JSON.stringify(expected_saved_by_prom2))
+
+  });
+});
+
+describe("#7 calculateSaved", () => {
+  it("should calculate saved money with best charges when promotion 指定菜品半价", ()=>{
+    const input_saved_by_prom1 = {promotion:'满30减6元', saved:6}; 
+    const input_saved_by_prom2 = {promotion:'指定菜品半价',
+    saved:13, nameLists:[{name:"黄焖鸡"}, {name: "凉皮"}]}; 
+
+    const expected_saved_info = {promotion:'指定菜品半价',
+     saved:13, nameLists:[{name:"黄焖鸡"}, {name: "凉皮"}]}; 
+
+    let saved_info = JSON.stringify(calculateSaved(input_saved_by_prom1, input_saved_by_prom2));
+    expect(saved_info).toBe(JSON.stringify(expected_saved_info))
+
+  });
+
+  it("should calculate saved money with best charges when promotion 满30减6元", ()=>{
+    const input_saved_by_prom1 = {promotion:'满30减6元', saved:6}; 
+    const input_saved_by_prom2 = {promotion:'指定菜品半价',
+    saved:4, nameLists:[ {name: "凉皮"}]}; 
+
+    const expected_saved_info = {promotion:'满30减6元', saved:6} 
+
+    let saved_info = JSON.stringify(calculateSaved(input_saved_by_prom1, input_saved_by_prom2));
+    expect(saved_info).toBe(JSON.stringify(expected_saved_info))
+
+  });
+});
+
+describe("#7 calculateBestCharge", () => {
+  it("should calculate the best charge", ()=>{
+    const input_saved_by_prom1 = {promotion:'满30减6元', saved:6}; 
+    const input_saved_by_prom2 = {promotion:'指定菜品半价',
+    saved:13, nameLists:[{name:"黄焖鸡"}, {name: "凉皮"}]}; 
+
+    const expected_saved_info = {promotion:'指定菜品半价',
+     saved:13, nameLists:[{name:"黄焖鸡"}, {name: "凉皮"}]}; 
+
+    let saved_info = JSON.stringify(calculateSaved(input_saved_by_prom1, input_saved_by_prom2));
+    expect(saved_info).toBe(JSON.stringify(expected_saved_info))
 
   });
 });
