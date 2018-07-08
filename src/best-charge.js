@@ -90,14 +90,13 @@ function getOrderDetailString(orderDetail) {
 function getItemsString(items) {
   let itemsString = "============= 订餐明细 =============\n";
   return items.reduce((total, item)=>{
-    return total+`    ${item.name} x ${item.count} = ${item.subtotal}元\n`;
+    return total+`${item.name} x ${item.count} = ${item.subtotal}元\n`;
   },itemsString);
 }
 function getPromotionString(savedInfo) {
-  let promotionString = "    -----------------------------------\n";
+  let promotionString = "-----------------------------------\n";
   if(savedInfo.saved > 0) {
-    promotionString += `    使用优惠:
-    ${savedInfo.promotion}`;
+    promotionString += `使用优惠:\n${savedInfo.promotion}`;
     if(savedInfo.promotion === '指定菜品半价'){
       for(let i = 0; i < savedInfo.nameLists.length; i++) {
         if(i === 0) promotionString += '(';
@@ -106,22 +105,29 @@ function getPromotionString(savedInfo) {
         if(i === savedInfo.nameLists.length-1) promotionString += ')';
       }
     }
-    promotionString+=`，省${savedInfo.saved}元
-    -----------------------------------\n`;
+    promotionString+=`，省${savedInfo.saved}元\n-----------------------------------\n`;
 }
   return promotionString;
 }
 function getBestChargeString(bestCharge) {
-  return `    总计：${bestCharge}元
-    ===================================`;
+  return `总计：${bestCharge}元
+===================================`;
 }
 
 function bestCharge(selectedItems) {
-  return /*TODO*/;
-
+  let itemCountLists = getItemCountLists(selectedItems);
+  let itemInfoLists = getItemInfoLists(itemCountLists);
+  let itemInfoListsWithSubtotal = calculateSubtotalBeforePromotion(itemInfoLists);
+  let charge = calculateChargeBeforePromotion(itemInfoListsWithSubtotal);
+  let savedInfoByprom1 = calculateSavedByProm1(charge);
+  let savedInfoByprom2 = calculateSavedByProm2(itemInfoListsWithSubtotal);
+  let savedInfo = calculateSaved(savedInfoByprom1, savedInfoByprom2);
+  let bestCharge = calculateBestCharge(charge, savedInfo);
+  let orderDetail = getOrderDetail(itemInfoListsWithSubtotal, savedInfo, bestCharge);
+  return getOrderDetailString(orderDetail);
 }
 
 
 module.exports = {getItemCountLists, getItemInfoLists,calculateSubtotalBeforePromotion,
   calculateChargeBeforePromotion, calculateSavedByProm1, calculateSavedByProm2,
-  calculateSaved, calculateBestCharge, getOrderDetail, getOrderDetailString};
+  calculateSaved, calculateBestCharge, getOrderDetail, getOrderDetailString, bestCharge};

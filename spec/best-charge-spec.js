@@ -1,8 +1,7 @@
-const {loadAllItems} = require('../src/items')
-const {loadPromotions} = require('../src/promotions')
+
 const  {getItemCountLists, getItemInfoLists,calculateSubtotalBeforePromotion, calculateChargeBeforePromotion,
   calculateSavedByProm1, calculateSavedByProm2, calculateSaved, calculateBestCharge,
-  getOrderDetail, getOrderDetailString} = require('../src/best-charge')
+  getOrderDetail, getOrderDetailString, bestCharge} = require('../src/best-charge')
 
 describe("#1 getItemCountLists function", () => {
   it("should get the item and count", ()=>{
@@ -190,7 +189,7 @@ describe("#9 getOrderDetail", () => {
   });
 });
 
-describe("#9 getOrderDetailString", () => {
+describe("#10 getOrderDetailString", () => {
   it("should get order detail string when promotion is 指定菜品半价", ()=>{
     const input_order_detail = {
       items: [{name: "黄焖鸡", count: 1, subtotal: 18},
@@ -203,16 +202,16 @@ describe("#9 getOrderDetailString", () => {
       bestCharge: 25
     };
     const expected_order_detail_string = `
-    ============= 订餐明细 =============
-    黄焖鸡 x 1 = 18元
-    肉夹馍 x 2 = 12元
-    凉皮 x 1 = 8元
-    -----------------------------------
-    使用优惠:
-    指定菜品半价(黄焖鸡，凉皮)，省13元
-    -----------------------------------
-    总计：25元
-    ===================================`.trim();
+============= 订餐明细 =============
+黄焖鸡 x 1 = 18元
+肉夹馍 x 2 = 12元
+凉皮 x 1 = 8元
+-----------------------------------
+使用优惠:
+指定菜品半价(黄焖鸡，凉皮)，省13元
+-----------------------------------
+总计：25元
+===================================`.trim();
 
     let order_detail_string = getOrderDetailString(input_order_detail);
     expect(order_detail_string).toBe(expected_order_detail_string)
@@ -230,15 +229,15 @@ describe("#9 getOrderDetailString", () => {
       bestCharge: 26
     };
     const expected_order_detail_string = `
-    ============= 订餐明细 =============
-    肉夹馍 x 4 = 24元
-    凉皮 x 1 = 8元
-    -----------------------------------
-    使用优惠:
-    满30减6元，省6元
-    -----------------------------------
-    总计：26元
-    ===================================`.trim();
+============= 订餐明细 =============
+肉夹馍 x 4 = 24元
+凉皮 x 1 = 8元
+-----------------------------------
+使用优惠:
+满30减6元，省6元
+-----------------------------------
+总计：26元
+===================================`.trim();
 
     let order_detail_string = getOrderDetailString(input_order_detail);
     expect(order_detail_string).toBe(expected_order_detail_string)
@@ -255,11 +254,11 @@ describe("#9 getOrderDetailString", () => {
       bestCharge: 24
     };
     const expected_order_detail_string = `
-    ============= 订餐明细 =============
-    肉夹馍 x 4 = 24元
-    -----------------------------------
-    总计：24元
-    ===================================`.trim();
+============= 订餐明细 =============
+肉夹馍 x 4 = 24元
+-----------------------------------
+总计：24元
+===================================`.trim();
 
     let order_detail_string = getOrderDetailString(input_order_detail);
     expect(order_detail_string).toBe(expected_order_detail_string)
@@ -267,7 +266,7 @@ describe("#9 getOrderDetailString", () => {
   });
 });
 
-/*
+
 describe('Take out food', function () {
 
   it('should generate best charge when best is 指定菜品半价', function() {
@@ -316,4 +315,4 @@ describe('Take out food', function () {
   });
 
 });
-*/
+
