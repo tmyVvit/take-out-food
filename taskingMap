@@ -26,8 +26,8 @@
     output: charges : number
 
 #5  calculateSavedByProm1
-    input : itemInfoLists, loadPromotions()
-    output: savedByProm1 : number
+    input : charges, loadPromotions
+    output: {promotion:string, saved: number}
 
 #6  calculateSavedByProm2
     input : itemInfoLists, loadPromotions()

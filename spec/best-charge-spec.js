@@ -1,6 +1,7 @@
 const {loadAllItems} = require('../src/items')
 const {loadPromotions} = require('../src/promotions')
-const  {getItemCountLists, getItemInfoLists,calculateSubtotalBeforePromotion, calculateChargesBeforePromotion} = require('../src/best-charge')
+const  {getItemCountLists, getItemInfoLists,calculateSubtotalBeforePromotion, calculateChargesBeforePromotion,
+  calculateSavedByProm1} = require('../src/best-charge')
 
 describe("#1 getItemCountLists function", () => {
   it("should get the item and count", ()=>{
@@ -63,6 +64,18 @@ describe("#4 calculateChargesBeforePromotion", () => {
   });
 });
 
+describe("#5 calculateSavedByProm1", () => {
+  it("should calculate saved money by promotion_1:满30减6元", ()=>{
+
+    let input_charges = 38;
+
+    const expected_saved_by_prom1 = {promotion:'满30减6元', saved:6}; 
+
+    let saved_by_prom1 = JSON.stringify(calculateSavedByProm1(input_charges));
+    expect(saved_by_prom1).toBe(JSON.stringify(expected_saved_by_prom1))
+
+  });
+});
 /*
 describe('Take out food', function () {
 

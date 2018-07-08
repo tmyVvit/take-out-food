@@ -42,6 +42,11 @@ function calculateChargesBeforePromotion(itemInfoLists) {
   }, 0);
 }
 
+function calculateSavedByProm1(charges) {
+  let promotion = loadPromotions()[0].type;
+  return {promotion, saved: charges>=30?6:0};
+}
+
 function bestCharge(selectedItems) {
   return /*TODO*/;
 
@@ -49,4 +54,4 @@ function bestCharge(selectedItems) {
 
 
 module.exports = {getItemCountLists, getItemInfoLists,calculateSubtotalBeforePromotion,
-  calculateChargesBeforePromotion};
+  calculateChargesBeforePromotion, calculateSavedByProm1};
