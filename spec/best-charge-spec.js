@@ -2,7 +2,7 @@ const {loadAllItems} = require('../src/items')
 const {loadPromotions} = require('../src/promotions')
 const  {getItemCountLists, getItemInfoLists,calculateSubtotalBeforePromotion, calculateChargeBeforePromotion,
   calculateSavedByProm1, calculateSavedByProm2, calculateSaved, calculateBestCharge,
-  getOrderDetail} = require('../src/best-charge')
+  getOrderDetail, getOrderDetailString} = require('../src/best-charge')
 
 describe("#1 getItemCountLists function", () => {
   it("should get the item and count", ()=>{
@@ -186,6 +186,83 @@ describe("#9 getOrderDetail", () => {
 
     let order_detail = JSON.stringify(getOrderDetail(input_item_info_lists, input_saved_info, input_best_charge));
     expect(order_detail).toBe(JSON.stringify(expected_order_detail))
+
+  });
+});
+
+describe("#9 getOrderDetailString", () => {
+  it("should get order detail string when promotion is 指定菜品半价", ()=>{
+    const input_order_detail = {
+      items: [{name: "黄焖鸡", count: 1, subtotal: 18},
+              {name: "肉夹馍", count: 2, subtotal: 12},
+              {name: "凉皮", count: 1, subtotal: 8}],
+      savedInfo: {promotion:'指定菜品半价',
+                  saved:13, 
+                  nameLists:[{name:"黄焖鸡"}, {name: "凉皮"}]
+                },
+      bestCharge: 25
+    };
+    const expected_order_detail_string = `
+    ============= 订餐明细 =============
+    黄焖鸡 x 1 = 18元
+    肉夹馍 x 2 = 12元
+    凉皮 x 1 = 8元
+    -----------------------------------
+    使用优惠:
+    指定菜品半价(黄焖鸡，凉皮)，省13元
+    -----------------------------------
+    总计：25元
+    ===================================`.trim();
+
+    let order_detail_string = getOrderDetailString(input_order_detail);
+    expect(order_detail_string).toBe(expected_order_detail_string)
+
+  });
+
+  it("should get order detail string when promotion is 满30减6元", ()=>{
+    const input_order_detail = {
+      items: [
+              {name: "肉夹馍", count: 4, subtotal: 24},
+              {name: "凉皮", count: 1, subtotal: 8}],
+      savedInfo: {promotion:'满30减6元',
+                  saved:6, 
+                },
+      bestCharge: 26
+    };
+    const expected_order_detail_string = `
+    ============= 订餐明细 =============
+    肉夹馍 x 4 = 24元
+    凉皮 x 1 = 8元
+    -----------------------------------
+    使用优惠:
+    满30减6元，省6元
+    -----------------------------------
+    总计：26元
+    ===================================`.trim();
+
+    let order_detail_string = getOrderDetailString(input_order_detail);
+    expect(order_detail_string).toBe(expected_order_detail_string)
+
+  });
+
+  it("should get order detail string when no promotion", ()=>{
+    const input_order_detail = {
+      items: [
+              {name: "肉夹馍", count: 4, subtotal: 24}],
+      savedInfo: {promotion:'满30减6元',
+                  saved:0, 
+                },
+      bestCharge: 24
+    };
+    const expected_order_detail_string = `
+    ============= 订餐明细 =============
+    肉夹馍 x 4 = 24元
+    -----------------------------------
+    总计：24元
+    ===================================`.trim();
+
+    let order_detail_string = getOrderDetailString(input_order_detail);
+    expect(order_detail_string).toBe(expected_order_detail_string)
 
   });
 });

@@ -58,3 +58,15 @@
 #10 getOrderDetailString
     input : orderDetail
     output: orderDetailString
+
+    #10.1 getItemsString
+    input : items
+    output: itemsString
+    
+    #10.2 getPromotionString
+    input : savedInfo
+    output: promotionString
+
+    #10.3 getBestChargeString
+    input : bestCharge
+    output: bestChargeString

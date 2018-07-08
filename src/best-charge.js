@@ -79,6 +79,43 @@ function getOrderDetail(itemInfoLists, savedInfo, bestCharge) {
   return {items, savedInfo, bestCharge};
 }
 
+
+
+function getOrderDetailString(orderDetail) {
+  return (getItemsString(orderDetail.items)
+        +getPromotionString(orderDetail.savedInfo)
+        +getBestChargeString(orderDetail.bestCharge)).trim();
+}
+
+function getItemsString(items) {
+  let itemsString = "============= 订餐明细 =============\n";
+  return items.reduce((total, item)=>{
+    return total+`    ${item.name} x ${item.count} = ${item.subtotal}元\n`;
+  },itemsString);
+}
+function getPromotionString(savedInfo) {
+  let promotionString = "    -----------------------------------\n";
+  if(savedInfo.saved > 0) {
+    promotionString += `    使用优惠:
+    ${savedInfo.promotion}`;
+    if(savedInfo.promotion === '指定菜品半价'){
+      for(let i = 0; i < savedInfo.nameLists.length; i++) {
+        if(i === 0) promotionString += '(';
+        else promotionString += '，';
+        promotionString += `${savedInfo.nameLists[i].name}`;
+        if(i === savedInfo.nameLists.length-1) promotionString += ')';
+      }
+    }
+    promotionString+=`，省${savedInfo.saved}元
+    -----------------------------------\n`;
+}
+  return promotionString;
+}
+function getBestChargeString(bestCharge) {
+  return `    总计：${bestCharge}元
+    ===================================`;
+}
+
 function bestCharge(selectedItems) {
   return /*TODO*/;
 
@@ -87,4 +124,4 @@ function bestCharge(selectedItems) {
 
 module.exports = {getItemCountLists, getItemInfoLists,calculateSubtotalBeforePromotion,
   calculateChargeBeforePromotion, calculateSavedByProm1, calculateSavedByProm2,
-  calculateSaved, calculateBestCharge, getOrderDetail};
+  calculateSaved, calculateBestCharge, getOrderDetail, getOrderDetailString};
