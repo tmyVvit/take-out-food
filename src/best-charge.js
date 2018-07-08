@@ -32,8 +32,14 @@ function calculateSubtotalBeforePromotion(itemInfoLists) {
   return itemInfoLists.map(itemInfoList => {
     //itemInfoList.subtotal = itemInfoList.price * itemInfoList.count;
     return Object.assign(itemInfoList, 
-      {subtotal: itemInfoList.price * itemInfoList.count});
+      {subtotal: parseInt(itemInfoList.price * itemInfoList.count)});
   });
+}
+
+function calculateChargesBeforePromotion(itemInfoLists) {
+  return itemInfoLists.reduce((charges, itemCountList) => {
+    return charges+itemCountList.subtotal;
+  }, 0);
 }
 
 function bestCharge(selectedItems) {
@@ -42,4 +48,5 @@ function bestCharge(selectedItems) {
 }
 
 
-module.exports = {getItemCountLists, getItemInfoLists,calculateSubtotalBeforePromotion};
+module.exports = {getItemCountLists, getItemInfoLists,calculateSubtotalBeforePromotion,
+  calculateChargesBeforePromotion};

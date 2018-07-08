@@ -21,23 +21,27 @@
         subtotal: number
     }] 
 
-#4  calculateSavedByProm1
+#4  calculateChargesBeforePromotion
+    input : itemInfoLists
+    output: charges : number
+
+#5  calculateSavedByProm1
     input : itemInfoLists, loadPromotions()
     output: savedByProm1 : number
 
-#5  calculateSavedByProm2
+#6  calculateSavedByProm2
     input : itemInfoLists, loadPromotions()
     output: savedByProm2 : number
 
-#6  calculateSaved
+#7  calculateSaved
     input : savedByProm1, savedByProm2
     output: savedInfo{promotion: string, saved: number}
 
-#7  calculateBestCharge
+#8  calculateBestCharge
     input : itemInfoLists, savedInfo
     output: bestCharge: number
 
-#8  getOrderDetail
+#9  getOrderDetail
     input : itemInfoLists, savedInfo, bestCharge
     output: orderDetail{
         items:{
@@ -47,6 +51,6 @@
         bestCharge: number
     }
 
-#9  getOrderDetailString
+#10 getOrderDetailString
     input : orderDetail
     output: orderDetailString

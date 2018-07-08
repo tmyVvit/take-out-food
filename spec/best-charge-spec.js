@@ -1,6 +1,6 @@
 const {loadAllItems} = require('../src/items')
 const {loadPromotions} = require('../src/promotions')
-const  {getItemCountLists, getItemInfoLists,calculateSubtotalBeforePromotion} = require('../src/best-charge')
+const  {getItemCountLists, getItemInfoLists,calculateSubtotalBeforePromotion, calculateChargesBeforePromotion} = require('../src/best-charge')
 
 describe("#1 getItemCountLists function", () => {
   it("should get the item and count", ()=>{
@@ -44,6 +44,21 @@ describe("#3 calculateSubtotalBeforePromotion function", () => {
 
     let itemInfoLists = JSON.stringify(calculateSubtotalBeforePromotion(input_itemInfoLists));
     expect(itemInfoLists).toBe(JSON.stringify(expected_item_info_lists))
+
+  });
+});
+
+describe("#4 calculateChargesBeforePromotion", () => {
+  it("should calculate charges before promition", ()=>{
+
+    let input_itemInfoLists = [{id: "ITEM0001", count: 1, name: "黄焖鸡", price: 18.00, subtotal: 18},
+    {id: "ITEM0013", count: 2, name: "肉夹馍", price: 6.00, subtotal: 12},
+    {id: "ITEM0022", count: 1, name: "凉皮", price: 8.00, subtotal: 8}];
+
+    const expected_charges = 38; 
+
+    let charges = JSON.stringify(calculateChargesBeforePromotion(input_itemInfoLists));
+    expect(charges).toBe(JSON.stringify(expected_charges))
 
   });
 });
