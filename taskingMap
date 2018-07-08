@@ -31,11 +31,11 @@
 
 #6  calculateSavedByProm2
     input : itemInfoLists, loadPromotions()
-    output: savedByProm2 : number
+    output: {promotion: string, saved: number, nameLists:[{name: string}]}
 
 #7  calculateSaved
     input : savedByProm1, savedByProm2
-    output: savedInfo{promotion: string, saved: number}
+    output: savedInfo{promotion: string, saved: number, nameLists:[{name: string}]}
 
 #8  calculateBestCharge
     input : itemInfoLists, savedInfo
