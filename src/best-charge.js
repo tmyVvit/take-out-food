@@ -17,7 +17,7 @@ function getItem(elemA, arrayB, getKey){
       return b;
     }
   }
-  return false;
+  return null;
 }
 
 function getItemInfoLists(itemCountLists) {
@@ -28,9 +28,18 @@ function getItemInfoLists(itemCountLists) {
   });
 }
 
+function calculateSubtotalBeforePromotion(itemInfoLists) {
+  return itemInfoLists.map(itemInfoList => {
+    //itemInfoList.subtotal = itemInfoList.price * itemInfoList.count;
+    return Object.assign(itemInfoList, 
+      {subtotal: itemInfoList.price * itemInfoList.count});
+  });
+}
+
 function bestCharge(selectedItems) {
   return /*TODO*/;
+
 }
 
 
-module.exports = {getItemCountLists, getItemInfoLists};
+module.exports = {getItemCountLists, getItemInfoLists,calculateSubtotalBeforePromotion};
