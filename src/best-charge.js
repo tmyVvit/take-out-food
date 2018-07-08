@@ -63,8 +63,20 @@ function calculateSavedByProm2(itemInfoLists) {
         };
 }
 
+function calculateBestCharge(charge, savedInfo) {
+  return charge-savedInfo.saved;
+}
+
 function calculateSaved(inputSavedByProm1, inputSavedByProm2) {
   return inputSavedByProm1.saved < inputSavedByProm2.saved?inputSavedByProm2:inputSavedByProm1;
+}
+
+function getOrderDetail(itemInfoLists, savedInfo, bestCharge) {
+  let items = itemInfoLists.map(itemInfoList=>{
+    let {name, count, subtotal} = itemInfoList;
+    return {name, count, subtotal};
+  });
+  return {items, savedInfo, bestCharge};
 }
 
 function bestCharge(selectedItems) {
@@ -75,4 +87,4 @@ function bestCharge(selectedItems) {
 
 module.exports = {getItemCountLists, getItemInfoLists,calculateSubtotalBeforePromotion,
   calculateChargeBeforePromotion, calculateSavedByProm1, calculateSavedByProm2,
-  calculateSaved};
+  calculateSaved, calculateBestCharge, getOrderDetail};

@@ -44,10 +44,14 @@
 #9  getOrderDetail
     input : itemInfoLists, savedInfo, bestCharge
     output: orderDetail{
-        items:{
+        items:[{
             name: string, count: number, subtotal: number
+        }]
+        savedInfo: {
+            promotion: string, 
+            saved: number, 
+            nameLists:[{name: string}]
         }
-        saved     : number
         bestCharge: number
     }
 
