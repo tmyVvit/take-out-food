@@ -111,12 +111,7 @@ function getPromotionString(savedInfo) {
   if(savedInfo.saved > 0) {
     promotionString += `使用优惠:\n${savedInfo.promotion}`;
     if(savedInfo.promotion === '指定菜品半价'){
-      for(let i = 0; i < savedInfo.nameLists.length; i++) {
-        if(i === 0) promotionString += '(';
-        else promotionString += '，';
-        promotionString += `${savedInfo.nameLists[i].name}`;
-        if(i === savedInfo.nameLists.length-1) promotionString += ')';
-      }
+      promotionString+= '('+savedInfo.nameLists.map(name=>name.name).join('，')+')';
     }
     promotionString+=`，省${savedInfo.saved}元\n-----------------------------------\n`;
 }
