@@ -1,4 +1,4 @@
-
+'use strict';
 const  {getItemCountLists, getItemInfoLists,calculateSubtotalBeforePromotion, calculateChargeBeforePromotion,
   calculateSavedByProm1, calculateSavedByProm2, calculateSaved, calculateBestCharge,
   getOrderDetail, getOrderDetailString, bestCharge} = require('../src/best-charge')
@@ -33,7 +33,7 @@ describe("#2 getItemInfoLists function", () => {
 });
 
 describe("#3 calculateSubtotalBeforePromotion function", () => {
-  it("should calculate the subtotal before promition", ()=>{
+  it("should calculate the subtotal before promotion", ()=>{
 
     let input_itemInfoLists = [{id: "ITEM0001", count: 1, name: "黄焖鸡", price: 18.00},
     {id: "ITEM0013", count: 2, name: "肉夹馍", price: 6.00},
@@ -50,13 +50,13 @@ describe("#3 calculateSubtotalBeforePromotion function", () => {
 });
 
 describe("#4 calculateChargeBeforePromotion", () => {
-  it("should calculate charges before promition", ()=>{
+  it("should calculate charges before promotion", ()=>{
 
     let input_itemInfoLists = [{id: "ITEM0001", count: 1, name: "黄焖鸡", price: 18.00, subtotal: 18},
     {id: "ITEM0013", count: 2, name: "肉夹馍", price: 6.00, subtotal: 12},
     {id: "ITEM0022", count: 1, name: "凉皮", price: 8.00, subtotal: 8}];
 
-    const expected_charge = 38; 
+    const expected_charge = 38;
 
     let charge = JSON.stringify(calculateChargeBeforePromotion(input_itemInfoLists));
     expect(charge).toBe(JSON.stringify(expected_charge))
@@ -69,7 +69,7 @@ describe("#5 calculateSavedByProm1", () => {
 
     let input_charge = 38;
 
-    const expected_saved_by_prom1 = {promotion:'满30减6元', saved:6}; 
+    const expected_saved_by_prom1 = {promotion:'满30减6元', saved:6};
 
     let saved_by_prom1 = JSON.stringify(calculateSavedByProm1(input_charge));
     expect(saved_by_prom1).toBe(JSON.stringify(expected_saved_by_prom1))
@@ -85,7 +85,7 @@ describe("#6 calculateSavedByProm2", () => {
     {id: "ITEM0022", count: 1, name: "凉皮", price: 8.00, subtotal: 8}];
 
     const expected_saved_by_prom2 = {promotion:'指定菜品半价',
-     saved:13, nameLists:[{name:"黄焖鸡"}, {name: "凉皮"}]}; 
+     saved:13, nameLists:[{name:"黄焖鸡"}, {name: "凉皮"}]};
 
     let saved_by_prom2 = JSON.stringify(calculateSavedByProm2(input_itemInfoLists));
     expect(saved_by_prom2).toBe(JSON.stringify(expected_saved_by_prom2))
@@ -95,12 +95,12 @@ describe("#6 calculateSavedByProm2", () => {
 
 describe("#7 calculateSaved", () => {
   it("should calculate saved money with best charges when promotion 指定菜品半价", ()=>{
-    const input_saved_by_prom1 = {promotion:'满30减6元', saved:6}; 
+    const input_saved_by_prom1 = {promotion:'满30减6元', saved:6};
     const input_saved_by_prom2 = {promotion:'指定菜品半价',
-    saved:13, nameLists:[{name:"黄焖鸡"}, {name: "凉皮"}]}; 
+    saved:13, nameLists:[{name:"黄焖鸡"}, {name: "凉皮"}]};
 
     const expected_saved_info = {promotion:'指定菜品半价',
-     saved:13, nameLists:[{name:"黄焖鸡"}, {name: "凉皮"}]}; 
+     saved:13, nameLists:[{name:"黄焖鸡"}, {name: "凉皮"}]};
 
     let saved_info = JSON.stringify(calculateSaved(input_saved_by_prom1, input_saved_by_prom2));
     expect(saved_info).toBe(JSON.stringify(expected_saved_info))
@@ -108,11 +108,11 @@ describe("#7 calculateSaved", () => {
   });
 
   it("should calculate saved money with best charges when promotion 满30减6元", ()=>{
-    const input_saved_by_prom1 = {promotion:'满30减6元', saved:6}; 
+    const input_saved_by_prom1 = {promotion:'满30减6元', saved:6};
     const input_saved_by_prom2 = {promotion:'指定菜品半价',
-    saved:4, nameLists:[ {name: "凉皮"}]}; 
+    saved:4, nameLists:[ {name: "凉皮"}]};
 
-    const expected_saved_info = {promotion:'满30减6元', saved:6} 
+    const expected_saved_info = {promotion:'满30减6元', saved:6}
 
     let saved_info = JSON.stringify(calculateSaved(input_saved_by_prom1, input_saved_by_prom2));
     expect(saved_info).toBe(JSON.stringify(expected_saved_info))
@@ -125,7 +125,7 @@ describe("#7 calculateSaved", () => {
 describe("#8 calculateBestCharge", () => {
   it("should calculate the best charge", ()=>{
     const input_saved_info = {promotion:'指定菜品半价',
-     saved:13, nameLists:[{name:"黄焖鸡"}, {name: "凉皮"}]}; 
+     saved:13, nameLists:[{name:"黄焖鸡"}, {name: "凉皮"}]};
     const input_charge = 38;
     const expected_best_charge = 25;
 
@@ -143,7 +143,7 @@ describe("#9 getOrderDetail", () => {
     {id: "ITEM0022", count: 1, name: "凉皮", price: 8.00, subtotal: 8}];
 
     const input_saved_info = {promotion:'指定菜品半价',
-     saved:13, nameLists:[{name:"黄焖鸡"}, {name: "凉皮"}]}; 
+     saved:13, nameLists:[{name:"黄焖鸡"}, {name: "凉皮"}]};
 
     const input_best_charge = 25;
 
@@ -152,7 +152,7 @@ describe("#9 getOrderDetail", () => {
               {name: "肉夹馍", count: 2, subtotal: 12},
               {name: "凉皮", count: 1, subtotal: 8}],
       savedInfo: {promotion:'指定菜品半价',
-                  saved:13, 
+                  saved:13,
                   nameLists:[{name:"黄焖鸡"}, {name: "凉皮"}]
                 },
       bestCharge: 25
@@ -169,7 +169,7 @@ describe("#9 getOrderDetail", () => {
     {id: "ITEM0022", count: 1, name: "凉皮", price: 8.00, subtotal: 8}];
 
     const input_saved_info = {promotion:'满30减6元',
-     saved:6}; 
+     saved:6};
 
     const input_best_charge = 26;
 
@@ -178,7 +178,7 @@ describe("#9 getOrderDetail", () => {
               {name: "肉夹馍", count: 4, subtotal: 24},
               {name: "凉皮", count: 1, subtotal: 8}],
       savedInfo: {promotion:'满30减6元',
-                  saved:6, 
+                  saved:6,
                 },
       bestCharge: 26
     };
@@ -196,7 +196,7 @@ describe("#10 getOrderDetailString", () => {
               {name: "肉夹馍", count: 2, subtotal: 12},
               {name: "凉皮", count: 1, subtotal: 8}],
       savedInfo: {promotion:'指定菜品半价',
-                  saved:13, 
+                  saved:13,
                   nameLists:[{name:"黄焖鸡"}, {name: "凉皮"}]
                 },
       bestCharge: 25
@@ -224,7 +224,7 @@ describe("#10 getOrderDetailString", () => {
               {name: "肉夹馍", count: 4, subtotal: 24},
               {name: "凉皮", count: 1, subtotal: 8}],
       savedInfo: {promotion:'满30减6元',
-                  saved:6, 
+                  saved:6,
                 },
       bestCharge: 26
     };
@@ -249,7 +249,7 @@ describe("#10 getOrderDetailString", () => {
       items: [
               {name: "肉夹馍", count: 4, subtotal: 24}],
       savedInfo: {promotion:'满30减6元',
-                  saved:0, 
+                  saved:0,
                 },
       bestCharge: 24
     };

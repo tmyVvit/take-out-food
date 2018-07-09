@@ -23,7 +23,7 @@ function getItem(elemA, arrayB, getKey){
 function getItemInfoLists(itemCountLists) {
   let allItems = loadAllItems();
   return itemCountLists.map(itemCountList => {
-    return Object.assign(itemCountList, 
+    return Object.assign(itemCountList,
       getItem(itemCountList, allItems, item => item.id));
   });
 }
@@ -31,7 +31,7 @@ function getItemInfoLists(itemCountLists) {
 function calculateSubtotalBeforePromotion(itemInfoLists) {
   return itemInfoLists.map(itemInfoList => {
     //itemInfoList.subtotal = itemInfoList.price * itemInfoList.count;
-    return Object.assign(itemInfoList, 
+    return Object.assign(itemInfoList,
       {subtotal: parseInt(itemInfoList.price * itemInfoList.count)});
   });
 }
@@ -49,19 +49,32 @@ function calculateSavedByProm1(charges) {
 
 function calculateSavedByProm2(itemInfoLists) {
   let promotion = loadPromotions()[1];
-  let promotionItemLists = itemInfoLists.filter(itemInfoList => {
-    return promotion.items.indexOf(itemInfoList.id) > -1;
-  });
-
+  let promotionItemLists = getPromotionItemLists(itemInfoLists);
   return {promotion: promotion.type,
-          saved    : promotionItemLists.reduce((saved, promotionItemList) =>{
-                      return saved + promotionItemList.subtotal;
-                    },0)/2,
-          nameLists:  promotionItemLists.map(promotionItemList=>{
-                      return {name: promotionItemList.name};
-                    })
+          saved    : getSaved(promotionItemLists),
+          nameLists:  getNameLists(promotionItemLists)
         };
 }
+
+function getPromotionItemLists(itemInfoLists) {
+  let promotion = loadPromotions()[1];
+  return itemInfoLists.filter(itemInfoList => {
+    return promotion.items.indexOf(itemInfoList.id) > -1;
+  });
+}
+
+function getSaved(promotionItemLists) {
+  return promotionItemLists.reduce((saved, promotionItemList) =>{
+    return saved + promotionItemList.subtotal;
+  },0)/2;
+}
+
+function getNameLists(promotionItemLists){
+  return promotionItemLists.map(promotionItemList=>{
+    return {name: promotionItemList.name};
+  });
+}
+
 
 function calculateBestCharge(charge, savedInfo) {
   return charge-savedInfo.saved;
@@ -107,8 +120,10 @@ function getPromotionString(savedInfo) {
     }
     promotionString+=`，省${savedInfo.saved}元\n-----------------------------------\n`;
 }
+
   return promotionString;
 }
+
 function getBestChargeString(bestCharge) {
   return `总计：${bestCharge}元
 ===================================`;
@@ -119,9 +134,9 @@ function bestCharge(selectedItems) {
   let itemInfoLists = getItemInfoLists(itemCountLists);
   let itemInfoListsWithSubtotal = calculateSubtotalBeforePromotion(itemInfoLists);
   let charge = calculateChargeBeforePromotion(itemInfoListsWithSubtotal);
-  let savedInfoByprom1 = calculateSavedByProm1(charge);
-  let savedInfoByprom2 = calculateSavedByProm2(itemInfoListsWithSubtotal);
-  let savedInfo = calculateSaved(savedInfoByprom1, savedInfoByprom2);
+  let savedInfoByProm1 = calculateSavedByProm1(charge);
+  let savedInfoByProm2 = calculateSavedByProm2(itemInfoListsWithSubtotal);
+  let savedInfo = calculateSaved(savedInfoByProm1, savedInfoByProm2);
   let bestCharge = calculateBestCharge(charge, savedInfo);
   let orderDetail = getOrderDetail(itemInfoListsWithSubtotal, savedInfo, bestCharge);
   return getOrderDetailString(orderDetail);

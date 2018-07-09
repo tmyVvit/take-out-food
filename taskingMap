@@ -19,7 +19,7 @@
         name    : string,
         price   : number,
         subtotal: number
-    }] 
+    }]
 
 #4  calculateChargesBeforePromotion
     input : itemInfoListsWithSubtotal
@@ -32,6 +32,18 @@
 #6  calculateSavedByProm2
     input : itemInfoListsWithSubtotal, loadPromotions()
     output: savedInfo{promotion: string, saved: number, nameLists:[{name: string}]}
+
+    #6.1 getPromotionItemLists
+    input : itemInfoLists
+    output: promotionItemLists
+
+    #6.2 getSaved
+    input : promotionItemLists
+    output: saved
+
+    #6.3 getNameLists
+    input : promotionItemLists
+    output: nameLists
 
 #7  calculateSaved
     input : savedByProm1, savedByProm2
@@ -48,8 +60,8 @@
             name: string, count: number, subtotal: number
         }]
         savedInfo: {
-            promotion: string, 
-            saved: number, 
+            promotion: string,
+            saved: number,
             nameLists:[{name: string}]
         }
         bestCharge: number
@@ -62,7 +74,7 @@
     #10.1 getItemsString
     input : items
     output: itemsString
-    
+
     #10.2 getPromotionString
     input : savedInfo
     output: promotionString
